@@ -1,0 +1,22 @@
+---
+# certbot install parameters
+certbot_repo: https://github.com/certbot/certbot.git
+certbot_version: master
+certbot_keep_updated: yes
+
+# certbot install location
+certbot_dir: /opt/certbot
+
+# Use a 4096 bit RSA key instead of 2048
+certbot_rsa_key_size: 4096
+
+# Email address to register certificate with
+certbot_email:
+
+# List of domains to create certificates for
+certbot_domains: 
+  # - example.com
+  # - stage.example.com
+
+# Authenticate by placing a file under .well-known/acme-challenge/ in specified webroot
+certbot_webroot_path: /var/www/html/certbot

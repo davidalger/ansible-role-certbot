@@ -1,0 +1,54 @@
+---
+- name: install certbot
+  git:
+    repo: "{{ certbot_repo }}"
+    dest: "{{ certbot_dir }}"
+    version: "{{ certbot_version }}"
+    update: "{{ certbot_keep_updated }}"
+
+- name: make certbot-auto executable
+  file:
+    path: "{{ certbot_dir }}/certbot-auto"
+    mode: 0755
+
+- name: create certbot webroot
+  file: path={{ certbot_webroot_path }} state=directory
+
+- name: create /etc/nginx/default.d
+  file: path=/etc/nginx/default.d state=directory
+
+- name: configure certbot nginx webroot
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/default.d/certbot.conf
+    owner: root
+    group: root
+  notify: reload nginx
+
+- name: configure certbot auto-renew cron
+  tags: crontab
+  cron:
+    name: certbot_renew
+    job: "{{ certbot_dir }}/certbot-auto renew >> /var/log/letsencrypt/certbot-renew.log"
+    user: root
+    minute: 30
+    hour: 2
+    weekday: 1
+
+- name: configure certbot auto-renew nginx reload
+  tags: crontab
+  cron:
+    name: certbot_renew_reload_nginx
+    job: /etc/init.d/nginx reload
+    user: root
+    minute: 35
+    hour: 2
+    weekday: 1
+
+- name: generate certificate files
+  command: "{{ certbot_dir }}/certbot-auto certonly --agree-tos -n --webroot --webroot-path {{ certbot_webroot_path }} \
+      --text --rsa-key-size {{ certbot_rsa_key_size }} --email {{ certbot_email|quote }} -d {{ item|quote }}"
+  args:
+    creates: /etc/letsencrypt/live/{{ item }}/fullchain.pem
+  with_items: "{{ certbot_domains }}"
+  when: certbot_domains and certbot_email
