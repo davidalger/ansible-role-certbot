@@ -10,6 +10,8 @@ Also configures root crontab entries for auto-renew.
 
 ## Role Configuration
 
+* Set `certbot_generate` to true and certbot will attempt to generate defined SSL certificates (requires public DNS)
+
 * Email address to register domains with:
 
         certbot_email: admin@example.com
@@ -26,4 +28,9 @@ Also configures root crontab entries for auto-renew.
 
 ## Example Usage
 
-    - { role: certbot, certbot_email: admin@example.com, certbot_domains: [ stage.example.com ] }
+    vars:
+        certbot_generate: true
+        certbot_email: admin@example.com
+        certbot_domains: [ stage.example.com ]
+    roles:
+        - certbot

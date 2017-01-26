@@ -10,6 +10,9 @@ certbot_dir: /opt/certbot
 # Use a 4096 bit RSA key instead of 2048
 certbot_rsa_key_size: 4096
 
+# If true, will attempt to generate SSL certs (requires pre-configured public DNS)
+certbot_generate: false
+
 # Email address to register certificate with
 certbot_email:
 

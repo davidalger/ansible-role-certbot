@@ -51,4 +51,4 @@
   args:
     creates: /etc/letsencrypt/live/{{ item }}/fullchain.pem
   with_items: "{{ certbot_domains }}"
-  when: certbot_domains and certbot_email
+  when: certbot_domains and certbot_email and certbot_generate
