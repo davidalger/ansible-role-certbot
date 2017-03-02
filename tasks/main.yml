@@ -57,3 +57,15 @@
     creates: /etc/letsencrypt/live/{{ item }}/fullchain.pem
   with_items: "{{ certbot_domains }}"
   when: certbot_domains and certbot_email and certbot_generate
+
+- name: symlink certificate files into /etc/nginx/ssl
+  file:
+    src: /etc/letsencrypt/live/{{ item[0] }}/{{ item[1] }}
+    dest: /etc/nginx/ssl/{{ item[0] }}.{{ item[2] }}
+    state: link
+    force: yes    # allow certbot to overrwrite the self-signed certificates we signd earlier on to bring nginx up
+  with_nested:
+    - "{{ certbot_domains }}"
+    - [[ fullchain.pem, crt], [ privkey.pem, key ]]
+  when: certbot_domains and certbot_email and certbot_generate
+  notify: reload nginx
