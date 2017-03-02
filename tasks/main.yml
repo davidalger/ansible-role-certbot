@@ -24,6 +24,11 @@
     owner: root
     group: root
   notify: reload nginx
+  register: configure_result
+
+- name: reload nginx service
+  service: name=nginx state=reloaded
+  when: configure_result|changed
 
 - name: configure certbot auto-renew cron
   tags: crontab
