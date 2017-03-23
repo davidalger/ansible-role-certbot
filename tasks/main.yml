@@ -50,9 +50,25 @@
     hour: 2
     weekday: 1
 
+- name: install certbot dependencies
+  command: "{{ certbot_dir }}/certbot-auto --noninteractive --os-packages-only"
+  register: install_result
+  when: certbot_domains and certbot_email and certbot_generate
+  changed_when: install_result.stdout != 'OS packages installed.'
+
 - name: generate certificate files
-  command: "{{ certbot_dir }}/certbot-auto certonly --agree-tos -n --webroot --webroot-path {{ certbot_webroot_path }} \
-      --text --rsa-key-size {{ certbot_rsa_key_size }} --email {{ certbot_email|quote }} -d {{ item|quote }}"
+  command: >
+    {{ certbot_dir }}/certbot-auto certonly
+    --agree-tos
+    --noninteractive
+    --webroot
+    --webroot-path {{ certbot_webroot_path }}
+    --text
+    --rsa-key-size {{ certbot_rsa_key_size }}
+    --email {{ certbot_email|quote }}
+    -d {{ item }}
+    {{ item.startswith('www.') | ternary(item.replace("www.", "-d "),'') }}
+
   args:
     creates: /etc/letsencrypt/live/{{ item }}/fullchain.pem
   with_items: "{{ certbot_domains }}"
