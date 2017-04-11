@@ -2,7 +2,9 @@
 # certbot install parameters
 certbot_repo: https://github.com/certbot/certbot.git
 certbot_version: master
-certbot_keep_updated: yes
+
+# when enabling this, be aware that when certbot-auto is run via cron it will (by default) self-update, breaking this
+certbot_keep_updated: no
 
 # certbot install location
 certbot_dir: /opt/certbot
