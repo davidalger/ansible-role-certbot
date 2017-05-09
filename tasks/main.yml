@@ -44,7 +44,7 @@
   tags: crontab
   cron:
     name: certbot_renew_reload_nginx
-    job: /etc/init.d/nginx reload
+    job: /sbin/nginx -s reload
     user: root
     minute: 35
     hour: 2
