@@ -79,7 +79,7 @@
     src: /etc/letsencrypt/live/{{ item[0] }}/{{ item[1] }}
     dest: /etc/nginx/ssl/{{ item[0] }}.{{ item[2] }}
     state: link
-    force: yes    # allow certbot to overrwrite the self-signed certificates we signd earlier on to bring nginx up
+    force: yes    # overwrite any self-signed certificates previously created for purpose of nginx start
   with_nested:
     - "{{ certbot_domains }}"
     - [[ fullchain.pem, crt], [ privkey.pem, key ]]
