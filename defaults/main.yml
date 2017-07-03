@@ -25,3 +25,6 @@ certbot_domains:
 
 # Authenticate by placing a file under .well-known/acme-challenge/ in specified webroot
 certbot_webroot_path: /var/www/html/certbot
+
+# Default location of certbot's log directory (changing this only affects the crontab entry)
+certbot_logdir: /var/log/letsencrypt

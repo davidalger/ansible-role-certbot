@@ -14,6 +14,14 @@
 - name: create certbot webroot
   file: path={{ certbot_webroot_path }} state=directory
 
+- name: create certbot log-directory
+  file:
+    path: "{{ certbot_logdir }}"
+    owner: root
+    group: root
+    mode: 0700
+    state: directory
+
 - name: create /etc/nginx/default.d
   file: path=/etc/nginx/default.d state=directory
 
@@ -34,7 +42,7 @@
   tags: crontab
   cron:
     name: certbot_renew
-    job: "{{ certbot_dir }}/certbot-auto renew >> /var/log/letsencrypt/certbot-renew.log"
+    job: "{{ certbot_dir }}/certbot-auto renew >> {{ certbot_logdir }}/certbot-renew.log"
     user: root
     minute: 30
     hour: 2
