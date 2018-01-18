@@ -9,6 +9,9 @@ certbot_keep_updated: no
 # certbot install location
 certbot_dir: /opt/certbot
 
+# location of nginx binary (this is different on older versions of *nix)
+certbot_nginx_bin: /sbin/nginx
+
 # Use a 4096 bit RSA key instead of 2048
 certbot_rsa_key_size: 4096
 

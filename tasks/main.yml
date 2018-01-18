@@ -52,7 +52,7 @@
   tags: crontab
   cron:
     name: certbot_renew_reload_nginx
-    job: /sbin/nginx -s reload
+    job: "{{ certbot_nginx_bin }} -s reload"
     user: root
     minute: 35
     hour: 2
