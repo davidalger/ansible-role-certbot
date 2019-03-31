@@ -1,36 +1,50 @@
-# Ansible Role: Certbot / Let's Encrypt
+# Ansible Role: Certbot (Let's Encrypt)
 
-Installs Certbot (Let's Encrypt) for RHEL/CentOS with Nginx.
+[![Build Status](https://travis-ci.org/davidalger/ansible-role-certbot.svg?branch=master)](https://travis-ci.org/davidalger/ansible-role-certbot)
 
-Also configures root crontab entries for auto-renew.
+Installs Certbot (Let's Encrypt) for RHEL/CentOS with Nginx and configures root crontab entry for auto-renew.
 
 ## Requirements
 
-* Certbot requires Git be installed
+Certbot requires `git` be installed on the target servers.
 
-## Role Configuration
+## Role Variables
 
-* Set `certbot_generate` to true and certbot will attempt to generate defined SSL certificates (requires public DNS)
+    certbot_generate: false
 
-* Email address to register domains with:
+False by default, set `certbot_generate: true` for certbot to attempt generation of SSL certificates (requires public DNS hence default value of false)
 
-        certbot_email: admin@example.com
+    certbot_email: admin@example.com
 
-* List of domains to create individual certificates for:
+Email address to register domains with.
 
-        certbot_domains: 
-          - stage.example.com
-          - stage.awesome.com
+    certbot_domains: 
+      - stage.example.com
+      - stage.awesome.com
+
+List of domains to create individual certificates for.
 
 ## Dependencies
 
-* In order for certbot to verify domain control, public DNS for each domain must be setup prior to running and an nginx server must exist for each domain
+In order for certbot to verify domain control, public DNS for each domain must be setup prior to running and an nginx server must exist for each domain.
 
-## Example Usage
+## Example Playbook
 
-    vars:
+    - hosts: web-servers
+      vars:
         certbot_generate: true
         certbot_email: admin@example.com
-        certbot_domains: [ stage.example.com ]
-    roles:
-        - certbot
+        certbot_domains:
+          - example.com
+          - stage.example.com
+      
+      roles:
+        - { role: davidalger.certbot, tags: certbot }
+
+## License
+
+This work is licensed under the MIT license. See LICENSE file for details.
+
+## Author Information
+
+This role was created in 2017 by [David Alger](http://davidalger.com/).
