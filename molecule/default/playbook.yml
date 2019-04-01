@@ -3,5 +3,14 @@
   hosts: all
   become: true
 
+  pre_tasks:
+    - name: Ensure dependencies are installed
+      package:
+        name:
+          - git
+          - nginx
+          - cronie
+        state: present
+
   roles:
     - role: davidalger.certbot
