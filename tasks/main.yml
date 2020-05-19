@@ -44,9 +44,9 @@
     name: certbot_renew
     job: "{{ certbot_dir }}/certbot-auto renew >> {{ certbot_logdir }}/certbot-renew.log"
     user: root
-    minute: 30
-    hour: 2
-    weekday: 1
+    minute: "30"
+    hour: "2"
+    weekday: "1"
 
 - name: configure certbot auto-renew nginx reload
   tags: crontab
@@ -54,9 +54,9 @@
     name: certbot_renew_reload_nginx
     job: "{{ certbot_nginx_bin }} -s reload"
     user: root
-    minute: 35
-    hour: 2
-    weekday: 1
+    minute: "35"
+    hour: "2"
+    weekday: "1"
 
 - name: install certbot dependencies
   command: "{{ certbot_dir }}/certbot-auto --noninteractive --os-packages-only"
