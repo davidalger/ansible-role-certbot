@@ -36,7 +36,7 @@
 
 - name: reload nginx service
   service: name=nginx state=reloaded
-  when: configure_result|changed
+  when: configure_result is changed
 
 - name: configure certbot auto-renew cron
   tags: crontab
