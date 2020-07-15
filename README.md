@@ -1,6 +1,6 @@
 # Ansible Role: Certbot (Let's Encrypt)
 
-[![Build Status](https://travis-ci.org/davidalger/ansible-role-certbot.svg?branch=master)](https://travis-ci.org/davidalger/ansible-role-certbot)
+[![Build Status](https://travis-ci.com/davidalger/ansible-role-certbot.svg?branch=master)](https://travis-ci.com/davidalger/ansible-role-certbot)
 
 Installs Certbot (Let's Encrypt) for RHEL/CentOS with Nginx and configures root crontab entry for auto-renew.
 
